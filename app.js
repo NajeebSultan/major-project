@@ -23,15 +23,23 @@ async function main() {
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(express.urlencoded({extended: true}));
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
+//Index Route
 app.get("/listings" , async (req, res) => {
    const allListings = await Listing.find({});
    res.render("listings/index", {allListings});
 });
+
+//Show Route
+app.get("/listings/:id" , async( req , res) => {
+  let {id} = req.params;
+  const listing = await Listing.findById(id);
+})
 
 
 // app.get("/testListing" , (req, res) => {
