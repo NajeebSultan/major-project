@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const Listing = require('./models/listing');
 const path = require('path');
+const { LiaSuitcaseRollingSolid } = require('react-icons/lia');
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -56,6 +57,15 @@ app.post("/listings", async (req , res) => {
   await newListing.save();
   res.redirect("/listings");
 });
+
+//Edit Route 
+app.get("/listings/:id/edit", async (req , res) => {
+  let {id} = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/edit.ejs" , {listing})
+
+});
+
 
 
 // app.get("/testListing" , (req, res) => {
