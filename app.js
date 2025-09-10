@@ -21,6 +21,8 @@ async function main() {
   
 }
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.get("/", (req, res) => {
   res.send("Hello World");
@@ -28,7 +30,7 @@ app.get("/", (req, res) => {
 
 app.get("/listings" , async (req, res) => {
    const allListings = await Listing.find({});
-   res.render("index.ejs", {allListings});
+   res.render("listings/index", {allListings});
 });
 
 
