@@ -7,13 +7,15 @@ const listingSchema = new Schema({
     required: true,
   },
   description: String,
-  image:{
-    type: String,
-    default: "https://pressbooks.cuny.edu/app/uploads/sites/93/2022/08/thanuj-mathew-8CSTVoDMEXg-unsplash-scaled.jpg",
-    set: (v) =>
-      v === ""
-       ? "https://pressbooks.cuny.edu/app/uploads/sites/93/2022/08/thanuj-mathew-8CSTVoDMEXg-unsplash-scaled.jpg"
-       : v,
+  image: {
+    filename: {
+      type: String,
+      default: "listingimage"
+    },
+    url: {
+      type: String,
+      default: ""   // no long default URL anymore
+    }
   },
   price: Number,
   location: String,
