@@ -105,4 +105,12 @@ text-decoration: none;
   height: 30vh;
 }
 
+.btns{
+  display: flex;
+}
+.show-card{
+  padding-left: 0;
+  padding-right:0 ;
+  
+}
 
