@@ -12,17 +12,17 @@
      />
 
     <div class="card-body">
-      <p class="card-text"><%= listing.title %></p>
+      <p class="card-text">
+      <b> <%= listing.title %> </b> <br>
+      <%= listing.description %> <br>
+      &#8360;<%= listing.price.toLocaleString("en-IN") %> <br>
+      <%= listing.location %> <br>
+      <%= listing.country %>
+
+      </p>
     </div>
   </div>
 
-  <ul>
-    <li><%= listing.title %> </li>
-    <li><%= listing.description %></li>
-    <li> &#8360;<%= listing.price.toLocaleString("en-IN") %></li>
-    <li><%= listing.location %></li>
-    <li><%= listing.country %></li>
-  </ul>
   <br>
   <a href="/listings/<%= listing._id %>/edit">Edit this Listing</a>
   <br>
