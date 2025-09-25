@@ -100,17 +100,24 @@ text-decoration: none;
 }
 
 /* Show Page */
-
 .show-img {
-  height: 30vh;
+    height: 30vh;
 }
 
 .btns{
-  display: flex;
+    display: flex;
 }
-.show-card{
-  padding-left: 0;
-  padding-right:0 ;
-  
+
+.show-card {
+    padding-left: 0;
+    padding-right: 0;
 }
+.edit-btn {
+  background-color: #fe424d !important ;
+  border: none !important;
+}
+
+
+
+
 
