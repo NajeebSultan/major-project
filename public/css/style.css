@@ -99,5 +99,10 @@ text-decoration: none;
   border: none !important;
 }
 
+/* Show Page */
+
+.show-img {
+  height: 30vh;
+}
 
 
