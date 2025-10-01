@@ -7,10 +7,11 @@
       <a href="/listings/<%= listing && listing._id %>" class="listing-link">
         <div class="card col">
           <img 
-            src="<%= (listing && listing.image && listing.image.url) ? listing.image.url : 'https://via.placeholder.com/600x400?text=No+Image' %>" 
+            src="<%= (listing && listing.image && listing.image.url) ? listing.image.url : (listing && typeof listing.image === 'string' && listing.image) ? listing.image : 'https://placehold.co/600x400?text=No+Image' %>" 
             class="card-img-top" 
             alt="listing_image" 
             style="height: 20rem"
+            onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=No+Image';"
           />
           <div class="card-img-overlay"></div>
           <div class="card-body">

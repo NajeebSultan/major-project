@@ -71,8 +71,16 @@ app.get("/listings/:id" , async( req , res, next) => {
 //Create Route 
 app.post("/listings", async (req , res ,next) => {
   try{
-    console.log(req.body); // Log the incoming data
-    const newListing = new Listing(req.body.listing);
+    // normalize image field
+    const payload = req.body.listing || {};
+    if (typeof payload.image === 'string') {
+      payload.image = { url: payload.image };
+    }
+    if (payload.image && typeof payload.image.url === 'string') {
+      payload.image.url = payload.image.url.trim();
+    }
+    console.log("Create payload:", payload);
+    const newListing = new Listing(payload);
     await newListing.save();
     res.redirect("/listings");
   } catch(err) {
@@ -106,7 +114,16 @@ app.put("/listings/:id", async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).send("Listing not found");
     }
-    const updated = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+    // normalize image field
+    const payload = req.body.listing || {};
+    if (typeof payload.image === 'string') {
+      payload.image = { url: payload.image };
+    }
+    if (payload.image && typeof payload.image.url === 'string') {
+      payload.image.url = payload.image.url.trim();
+    }
+    console.log("Update payload:", payload);
+    const updated = await Listing.findByIdAndUpdate(id, { ...payload }, { new: true });
     if (!updated) {
       return res.status(404).send("Listing not found");
     }
