@@ -3,7 +3,11 @@
   <div class="col-8 offset-2">
     <br><br>
     <h3>Edit your Listing</h3>
-    <form method="POST" action="/listing/<%= listing._id %>?_method=PUT">
+    <form method="POST" action="/listing/<%= listing._id %>?_method=PUT"
+      novalidate
+      class="needs-validation">
+     
+
       
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -13,6 +17,7 @@
           placeholder="Add a catchy title" 
           type="text" 
           class="form-control"
+          required
         />
       </div>
 
@@ -20,8 +25,8 @@
         <label for="description" class="form-label">Description</label>
         <textarea 
           name="listing[description]" 
-          class="form-control" 
-          placeholder="enter description"
+          class="form-control" required 
+          placeholder="enter description"  
         ><%= listing.description %></textarea>
       </div>
 
@@ -33,6 +38,7 @@
           placeholder="enter image URL/Link" 
           type="text" 
           class="form-control"
+          required
         />
       </div>
 
@@ -45,6 +51,7 @@
             placeholder="1200" 
             type="number" 
             class="form-control"
+            required
           />
         </div>
 
@@ -56,6 +63,7 @@
             placeholder="India" 
             type="text" 
             class="form-control"
+            required
           />
         </div>
       </div>
@@ -68,6 +76,7 @@
           placeholder="Jaipur, Rajasthan" 
           type="text" 
           class="form-control"
+          required
         />
       </div>
 
