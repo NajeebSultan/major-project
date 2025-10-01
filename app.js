@@ -51,41 +51,87 @@ app.get("/listings/new", (req , res) => {
 });
 
 //Show Route
-app.get("/listings/:id" , async( req , res) => {
-  let {id} = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/show.ejs", { listing });
+app.get("/listings/:id" , async( req , res, next) => {
+  try {
+    let {id} = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).send("Listing not found");
+    }
+    const listing = await Listing.findById(id);
+    if (!listing) {
+      return res.status(404).send("Listing not found");
+    }
+    res.render("listings/show.ejs", { listing });
+  } catch (err) {
+    next(err);
+  }
 
 });
 
 //Create Route 
-app.post("/listings", async (req , res) => {
-  const newListing = new Listing(req.body.listing);
-  await newListing.save();
-  res.redirect("/listings");
+app.post("/listings", async (req , res ,next) => {
+  try{
+    console.log(req.body); // Log the incoming data
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+  } catch(err) {
+    next(err);
+  }
+  
 });
 
 //Edit Route 
-app.get("/listings/:id/edit", async (req , res) => {
-  let {id} = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/edit.ejs" , {listing})
+app.get("/listings/:id/edit", async (req , res, next) => {
+  try {
+    let {id} = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).send("Listing not found");
+    }
+    const listing = await Listing.findById(id);
+    if (!listing) {
+      return res.status(404).send("Listing not found");
+    }
+    res.render("listings/edit.ejs" , {listing})
+  } catch (err) {
+    next(err);
+  }
 
 });
 
 //Update Route 
-app.put("/listing/:id", async (req, res) => {
-  let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  res.redirect(`/listings/${id}`);
+app.put("/listings/:id", async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).send("Listing not found");
+    }
+    const updated = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+    if (!updated) {
+      return res.status(404).send("Listing not found");
+    }
+    res.redirect(`/listings/${id}`);
+  } catch (err) {
+    next(err);
+  }
 });
 
 //Delete Route
-app.delete("/listings/:id" , async (req, res) => {
-  let { id } = req.params;
-  let deletedListing = await Listing.findByIdAndDelete(id);
-  console.log(deletedListing);
-  res.redirect("/listings");
+app.delete("/listings/:id" , async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).send("Listing not found");
+    }
+    let deletedListing = await Listing.findByIdAndDelete(id);
+    if (!deletedListing) {
+      return res.status(404).send("Listing not found");
+    }
+    console.log(deletedListing);
+    res.redirect("/listings");
+  } catch (err) {
+    next(err);
+  }
 })
 
 
@@ -105,6 +151,10 @@ app.delete("/listings/:id" , async (req, res) => {
 
 // });
 
+app.use((err , req , res, next) => {
+  console.error(err); // Log the actual error
+  res.send("something went wrong!");
+});
 
 app.listen(8080, () => {
   console.log('Server is running on port 8080');
