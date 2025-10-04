@@ -6,6 +6,7 @@ const path = require('path');
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -106,9 +107,13 @@ app.delete("/listings/:id" , wrapAsync(async (req, res) => {
 
 // });
 
+app.use((req, res, next) => {
+  next(new ExpressError(404, "Page Not Found"));
+});
+
 app.use((err , req , res, next) => {
-  console.error(err); // Log the actual error
-  res.send("something went wrong!");
+  let { statusCode =500 , message = "something went wrong!" } = err;
+  res.status(statusCode).send(message);
 });
 
 app.listen(8080, () => {
