@@ -115,12 +115,12 @@ app.delete("/listings/:id" , wrapAsync(async (req, res) => {
 // });
 
 app.use((req, res, next) => {
-  next(new ExpressError(404, "Page Not Found"));
+  next(new ExpressError(404, "Page Not Found!"));
 });
 
 app.use((err , req , res, next) => {
   let { statusCode =500 , message = "something went wrong!" } = err;
-  res.render("error.ejs", { err });
+  res.status(statusCode).render("error.ejs", { message });
 });
 
 app.listen(8080, () => {
